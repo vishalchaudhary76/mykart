@@ -4,64 +4,610 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta name="description" content="Mykart - Your Premier Online Shopping Destination">
+    <meta name="keywords" content="ecommerce, shopping, online store, mykart">
+    
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
-    <title>{%block title %} {% endblock %}</title>
-      <style>
-          {% block css %}{% endblock  %}
-  </style>
-  </head>
-  <body>
-  {% load static %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="/shop/">Mykart</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/shop/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/shop/about">About</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/shop/tracker">Tracker</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/shop/contact">Contact us</a>
-      </li>
-      
     
-    </ul>
-    <form method="get" action= "/shop/search/" class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-      <button type="button" class="btn btn-secondary mx-2 " id ="popcart" data-bs-container="body" data-toggle="popover"
- data-bs-placement="bottom" data-html="true" data-bs-content="Bottom popover">
-        Cart(<span id="cart">0</span>)
-      </button>
-              
-      
-  </div>
-</nav>
+    <title>{% block title %}Mykart - Shop the Best Deals{% endblock %}</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        /* Modern Navbar Styles */
+        .navbar-modern {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-modern .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white !important;
+            letter-spacing: 1px;
+            position: relative;
+            padding: 0 10px;
+        }
+        
+        .navbar-modern .navbar-brand i {
+            margin-right: 8px;
+            color: #ffd700;
+        }
+        
+        .navbar-modern .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #ffd700;
+            border-radius: 5px;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-modern .navbar-brand:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .navbar-modern .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            margin: 0 5px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .navbar-modern .nav-link i {
+            margin-right: 6px;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-modern .nav-link:hover {
+            color: white !important;
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .navbar-modern .nav-link:hover i {
+            transform: scale(1.2);
+        }
+        
+        .navbar-modern .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            color: white !important;
+            font-weight: 600;
+        }
+        
+        .navbar-modern .nav-link.active::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 5px;
+            background: #ffd700;
+            border-radius: 50%;
+        }
+        
+        /* Search Bar Styles */
+        .search-form {
+            position: relative;
+            margin-right: 15px;
+        }
+        
+        .search-form .form-control {
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            color: white;
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-form .form-control::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .search-form .form-control:focus {
+            background: white;
+            color: #333;
+            border-color: white;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            width: 300px;
+        }
+        
+        .search-form .form-control:focus::placeholder {
+            color: #999;
+        }
+        
+        .search-form .btn-search {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-form .btn-search:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        /* Cart Button Styles */
+        .cart-button {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cart-button i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .cart-button:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .cart-button:hover i {
+            transform: scale(1.2);
+        }
+        
+        .cart-button:hover .cart-count {
+            background: #667eea;
+            color: white;
+        }
+        
+        .cart-count {
+            background: #ffd700;
+            color: #333;
+            border-radius: 50px;
+            padding: 2px 10px;
+            margin-left: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        /* Popover Styles */
+        .popover-custom {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            max-width: 300px;
+        }
+        
+        .popover-custom .popover-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            font-weight: 600;
+            border: none;
+            padding: 12px 15px;
+        }
+        
+        .popover-custom .popover-header i {
+            margin-right: 8px;
+        }
+        
+        .popover-custom .popover-body {
+            padding: 15px;
+        }
+        
+        .popover-custom .cart-item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .popover-custom .cart-item-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+        }
+        
+        .popover-custom .cart-item-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .popover-custom .cart-footer {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .popover-custom .view-cart-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .popover-custom .view-cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            min-height: calc(100vh - 200px);
+            padding: 20px 0;
+        }
+        
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(135deg, transparent 50%, #667eea 50%);
+        }
+        
+        .footer h5 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer h5::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #ffd700;
+            border-radius: 5px;
+        }
+        
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer ul li a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer ul li a:hover {
+            color: white;
+            padding-left: 10px;
+        }
+        
+        .footer ul li a i {
+            margin-right: 8px;
+            width: 20px;
+        }
+        
+        .footer .social-links {
+            margin-top: 20px;
+        }
+        
+        .footer .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .footer .social-links a:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-5px);
+        }
+        
+        .footer .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 991.98px) {
+            .navbar-modern .navbar-collapse {
+                background: rgba(255,255,255,0.1);
+                padding: 1rem;
+                border-radius: 15px;
+                margin-top: 1rem;
+            }
+            
+            .search-form {
+                margin: 1rem 0;
+            }
+            
+            .search-form .form-control {
+                width: 100%;
+            }
+            
+            .search-form .form-control:focus {
+                width: 100%;
+            }
+            
+            .cart-button {
+                width: 100%;
+                margin-top: 1rem;
+            }
+        }
+        
+        @media (max-width: 767.98px) {
+            .navbar-modern .navbar-brand {
+                font-size: 1.5rem;
+            }
+        }
+        
+        {% block css %}{% endblock %}
+    </style>
+  </head>
+  
+  <body>
+    {% load static %}
+    
+    <!-- Modern Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-modern sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/shop/">
+                <i class="fas fa-shopping-bag"></i> Mykart
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-{% block body %}{% endblock  %}
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/shop/' %}active{% endif %}" href="/shop/">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/shop/about' %}active{% endif %}" href="/shop/about">
+                            <i class="fas fa-info-circle"></i> About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/shop/tracker' %}active{% endif %}" href="/shop/tracker">
+                            <i class="fas fa-truck"></i> Tracker
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/shop/contact' %}active{% endif %}" href="/shop/contact">
+                            <i class="fas fa-envelope"></i> Contact
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Search Form -->
+                <form method="get" action="/shop/search/" class="form-inline search-form">
+                    <input class="form-control" type="search" placeholder="Search products..." 
+                           aria-label="Search" name="search" id="search" autocomplete="off">
+                    <button class="btn-search" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
 
+                <!-- Cart Button -->
+               <button type="button" class="cart-button" id="popcart">
+    <i class="fas fa-shopping-cart"></i> Cart
+    <span class="cart-count" id="cart">0</span>
+</button>
+            </div>
+        </div>
+    </nav>
 
+    <!-- Main Content Area -->
+    <div class="main-content">
+        {% block body %}{% endblock %}
+    </div>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-shopping-bag mr-2"></i> Mykart</h5>
+                    <p>Your premier online shopping destination. We bring the best products at the best prices right to your doorstep.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-md-2">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="/shop/"><i class="fas fa-angle-right"></i> Home</a></li>
+                        <li><a href="/shop/about/"><i class="fas fa-angle-right"></i> About Us</a></li>
+                        <li><a href="/shop/contact/"><i class="fas fa-angle-right"></i> Contact</a></li>
+                        <li><a href="/shop/tracker/"><i class="fas fa-angle-right"></i> Track Order</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-3">
+                    <h5>Customer Service</h5>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Shipping Policy</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Return Policy</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-3">
+                    <h5>Contact Info</h5>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Noida, Uttar Pradesh</li>
+                        <li><i class="fas fa-phone"></i> +91 1234567890</li>
+                        <li><i class="fas fa-envelope"></i> support@mykart.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat, 9AM-8PM</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2026 Mykart Pvt. Ltd. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
 
-<!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- JavaScript Dependencies -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-  {% block js %}{% endblock  %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        $(document).ready(function() {
+            // Initialize popover
+            $('[data-toggle="popover"]').popover({
+                trigger: 'hover',
+                placement: 'bottom',
+                html: true,
+                template: `
+                    <div class="popover popover-custom" role="tooltip">
+                        <div class="popover-header"></div>
+                        <div class="popover-body"></div>
+                    </div>
+                `
+            });
+            
+            // Update popover content on cart change
+            function updatePopoverContent() {
+                let cart = JSON.parse(localStorage.getItem('cart')) || {};
+                let itemCount = Object.keys(cart).length;
+                
+                let content = `
+                    <div style="min-width: 250px;">
+                        <ul class="cart-item-list">
+                `;
+                
+                if (itemCount > 0) {
+                    for (let item in cart) {
+                        content += `<li><i class="fas fa-box text-primary mr-2"></i> ${cart[item][1]} x ${cart[item][0]}</li>`;
+                    }
+                    content += `
+                        </ul>
+                        <div class="cart-footer">
+                            <p class="mb-2"><strong>Total Items:</strong> ${itemCount}</p>
+                            <a href="/shop/checkout/" class="view-cart-btn">
+                                <i class="fas fa-arrow-right mr-2"></i>View Cart
+                            </a>
+                        </div>
+                    `;
+                } else {
+                    content += `<li class="text-center text-muted py-3"><i class="fas fa-shopping-cart fa-2x mb-2"></i><br>Your cart is empty</li>`;
+                }
+                
+                $('#popcart').attr('data-content', content);
+            }
+            
+            // Call initially and on cart changes
+            updatePopoverContent();
+            
+            // Listen for cart updates
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'cart') {
+                    updatePopoverContent();
+                }
+            });
+        });
+        
+        // Global cart update function
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || {};
+            $('#cart').text(Object.keys(cart).length);
+        }
+    </script>
+    
+    {% block js %}{% endblock %}
   </body>
 </html>

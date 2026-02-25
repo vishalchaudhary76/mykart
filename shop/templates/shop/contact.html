@@ -1,43 +1,620 @@
 {% extends 'shop/basic.html' %}
 
 {% block title%} Contact Us - Mykart{% endblock %}
+
 {% block body %}
-<div class="container my-3">
-    <h3>Contact Us</h3>
-    <form action="/shop/contact/" method="post">{% csrf_token %}
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input type="text" class="form-control" id="name" name='name' placeholder="Enter Your Name">
-  </div>
-  <div class="form-group">
-    <label for="name">Email</label>
-    <input type="email" class="form-control" id="email" name='email' placeholder="Enter Your Email">
-  </div>
+<style>
+    .contact-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 0;
+        margin-bottom: 40px;
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    }
+    
+    .contact-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
+        transition: transform 0.3s;
+        height: 100%;
+    }
+    
+    .contact-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px rgba(102, 126, 234, 0.15);
+    }
+    
+    .contact-info-card {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        transition: all 0.3s;
+        border-left: 4px solid #667eea;
+    }
+    
+    .contact-info-card:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        transform: translateX(5px);
+    }
+    
+    .contact-info-card:hover i,
+    .contact-info-card:hover h5,
+    .contact-info-card:hover p {
+        color: white;
+    }
+    
+    .contact-info-card i {
+        font-size: 2rem;
+        color: #667eea;
+        margin-bottom: 15px;
+        transition: all 0.3s;
+    }
+    
+    .contact-info-card h5 {
+        margin-bottom: 12px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .contact-info-card p {
+        color: #666;
+        margin-bottom: 5px;
+        line-height: 1.6;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-control {
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 12px 15px;
+        transition: all 0.3s;
+        font-size: 0.95rem;
+    }
+    
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.1);
+    }
+    
+    .form-control:hover {
+        border-color: #999;
+    }
+    
+    label {
+        font-weight: 500;
+        color: #555;
+        margin-bottom: 6px;
+        font-size: 0.95rem;
+    }
+    
+    label i {
+        color: #667eea;
+        margin-right: 6px;
+        width: 18px;
+    }
+    
+    .btn-submit {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 500;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+        letter-spacing: 0.5px;
+        margin-top: 10px;
+    }
+    
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        color: white;
+    }
+    
+    .btn-submit i {
+        margin-right: 8px;
+    }
+    
+    .floating {
+        animation: floating 3s ease-in-out infinite;
+    }
+    
+    @keyframes floating {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+        100% { transform: translateY(0px); }
+    }
+    
+    .success-message {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+        z-index: 1000;
+        animation: slideIn 0.5s ease;
+        font-weight: 500;
+    }
+    
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    .success-message i {
+        font-size: 1.5rem;
+        margin-right: 10px;
+    }
+    
+    .faq-section {
+        background: #f8f9fa;
+        padding: 40px 0;
+        margin-top: 30px;
+        border-radius: 30px 30px 0 0;
+    }
+    
+    .faq-item {
+        background: white;
+        border-radius: 12px;
+        padding: 18px;
+        margin-bottom: 15px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+        transition: all 0.3s;
+        border: 1px solid #f0f0f0;
+    }
+    
+    .faq-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        border-color: #667eea;
+    }
+    
+    .faq-item h5 {
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 1rem;
+    }
+    
+    .faq-item h5 i {
+        color: #667eea;
+        margin-right: 8px;
+        width: 20px;
+    }
+    
+    .faq-item p {
+        color: #666;
+        margin-bottom: 0;
+        padding-left: 28px;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    
+    .input-group-icon {
+        position: relative;
+    }
+    
+    .input-group-icon i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        z-index: 10;
+        font-size: 1rem;
+    }
+    
+    .input-group-icon input,
+    .input-group-icon textarea {
+        padding-left: 38px;
+    }
+    
+    .social-links {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #e0e0e0;
+    }
+    
+    .social-links a {
+        color: #666;
+        font-size: 1.5rem;
+        transition: all 0.3s;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #f0f0f0;
+    }
+    
+    .social-links a:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-3px);
+    }
+    
+    .quick-contact {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 15px;
+    }
+    
+    .quick-contact-item {
+        background: white;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+        transition: all 0.3s;
+    }
+    
+    .quick-contact-item:hover {
+        background: #667eea;
+        color: white;
+    }
+    
+    .quick-contact-item:hover i,
+    .quick-contact-item:hover span {
+        color: white;
+    }
+    
+    .quick-contact-item i {
+        font-size: 1.3rem;
+        color: #667eea;
+        margin-bottom: 5px;
+    }
+    
+    .quick-contact-item span {
+        font-size: 0.85rem;
+        color: #555;
+        display: block;
+    }
+    
+    .required-field::after {
+        content: '*';
+        color: #dc3545;
+        margin-left: 4px;
+    }
+    
+    @media (max-width: 768px) {
+        .contact-header {
+            padding: 40px 0;
+        }
+        
+        .contact-card {
+            padding: 20px;
+        }
+        
+        .quick-contact {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
 
-    <div class="form-group">
-    <label for="name">Phone</label>
-    <input type="tel" class="form-control" id="phone" name='phone' placeholder="Enter Your Phone Number">
-  </div>
-
-
-   <div class="form-group">
-    <label for="desc">How May We Help You?</label>
-    <textarea class="form-control" id="desc" name='desc' rows="3"></textarea>
-  </div>
-        <button type="submit" class="btn btn-success">Submit</button>
-</form>
-
-
-
+<!-- Contact Header -->
+<div class="contact-header text-center">
+    <div class="container">
+        <h1 class="display-4 mb-3 floating" style="font-size: 2.5rem;">
+            <i class="fas fa-headset"></i> Get in Touch
+        </h1>
+        <p class="lead" style="font-size: 1.1rem;">We'd love to hear from you! Send us a message and we'll respond as soon as possible.</p>
+    </div>
 </div>
+
+<!-- Main Content -->
+<div class="container mb-4">
+    <div class="row">
+        <!-- Contact Form Section (8 columns) -->
+        <div class="col-lg-8">
+            <div class="contact-card">
+                <h4 class="mb-4">
+                    <i class="fas fa-envelope text-primary mr-2"></i>
+                    Send us a Message
+                </h4>
+                
+                <form action="/shop/contact/" method="post" id="contactForm">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">
+                                    <i class="fas fa-user"></i>Full Name <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group-icon">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" class="form-control" id="name" name="name" 
+                                           placeholder="Enter your full name" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">
+                                    <i class="fas fa-envelope"></i>Email <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group-icon">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" class="form-control" id="email" name="email" 
+                                           placeholder="Enter your email" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone">
+                                    <i class="fas fa-phone"></i>Phone <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group-icon">
+                                    <i class="fas fa-phone"></i>
+                                    <input type="tel" class="form-control" id="phone" name="phone" 
+                                           placeholder="Enter your phone number" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="subject">
+                                    <i class="fas fa-tag"></i>Subject
+                                </label>
+                                <div class="input-group-icon">
+                                    <i class="fas fa-tag"></i>
+                                    <input type="text" class="form-control" id="subject" name="subject" 
+                                           placeholder="Enter subject">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="desc">
+                            <i class="fas fa-comment"></i>Message <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group-icon">
+                            <i class="fas fa-comment"></i>
+                            <textarea class="form-control" id="desc" name="desc" rows="4" 
+                                      placeholder="How can we help you?" required></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Contact Information Sidebar (4 columns) - Made compact -->
+        <div class="col-lg-4">
+            <!-- Visit Us Card - Compact -->
+            <div class="contact-info-card">
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fas fa-map-marker-alt mr-3" style="font-size: 1.8rem; margin-bottom: 0;"></i>
+                    <h5 class="mb-0">Visit Us</h5>
+                </div>
+                <p style="font-size: 0.95rem; margin-left: 45px;">
+                    Mykart Headquarters<br>
+                    Sector 62, Noida<br>
+                    Uttar Pradesh - 201301
+                </p>
+            </div>
+            
+            <!-- Email Us Card - Compact -->
+            <div class="contact-info-card">
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fas fa-envelope-open mr-3" style="font-size: 1.8rem; margin-bottom: 0;"></i>
+                    <h5 class="mb-0">Email Us</h5>
+                </div>
+                <div style="margin-left: 45px;">
+                    <p style="font-size: 0.95rem; margin-bottom: 5px;">
+                        <i class="fas fa-angle-right text-primary mr-1"></i> support@mykart.com
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 5px;">
+                        <i class="fas fa-angle-right text-primary mr-1"></i> info@mykart.com
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 0;">
+                        <i class="fas fa-angle-right text-primary mr-1"></i> careers@mykart.com
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Call Us Card - Compact -->
+            <div class="contact-info-card">
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fas fa-phone-alt mr-3" style="font-size: 1.8rem; margin-bottom: 0;"></i>
+                    <h5 class="mb-0">Call Us</h5>
+                </div>
+                <div style="margin-left: 45px;">
+                    <p style="font-size: 0.95rem; margin-bottom: 5px;">
+                        <i class="fas fa-phone mr-2 text-primary"></i> 1800-123-4567 (Toll Free)
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 0;">
+                        <i class="fas fa-mobile-alt mr-2 text-primary"></i> +91 1234567890
+                    </p>
+                    <small class="text-muted d-block mt-2">Mon-Sat, 9AM - 8PM</small>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="quick-contact">
+                <div class="quick-contact-item">
+                    <i class="fas fa-clock"></i>
+                    <span>24/7 Support</span>
+                </div>
+                <div class="quick-contact-item">
+                    <i class="fas fa-rocket"></i>
+                    <span>Fast Response</span>
+                </div>
+            </div>
+            
+            <!-- Social Media - Compact -->
+            <div class="contact-card mt-3" style="padding: 15px;">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="mb-0"><i class="fab fa-connectdevelop mr-2 text-primary"></i>Connect</h6>
+                    <div class="social-links" style="margin-top: 0; padding-top: 0; border-top: none;">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section - Made compact -->
+<div class="faq-section">
+    <div class="container">
+        <h4 class="text-center mb-4">
+            <i class="fas fa-question-circle text-primary mr-2"></i>
+            Quick Answers
+        </h4>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="faq-item">
+                    <h5><i class="fas fa-truck"></i> Delivery time?</h5>
+                    <p>Standard: 3-5 days | Express: 1-2 days</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h5><i class="fas fa-undo"></i> Return policy?</h5>
+                    <p>30-day easy returns on most items</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="faq-item">
+                    <h5><i class="fas fa-credit-card"></i> Payment methods?</h5>
+                    <p>Cards, UPI, Net Banking, COD</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h5><i class="fas fa-headset"></i> Support hours?</h5>
+                    <p>Mon-Sat, 9AM to 8PM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 {% endblock %}
 
 {% block js %}
 <script>
+// Form submission handling
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value;
+    let phone = document.getElementById('phone').value;
+    let desc = document.getElementById('desc').value;
+    
+    if (!name || !email || !phone || !desc) {
+        e.preventDefault();
+        showNotification('Please fill in all required fields', 'error');
+        return false;
+    }
+    
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        e.preventDefault();
+        showNotification('Please enter a valid email address', 'error');
+        return false;
+    }
+    
+    let phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(phone)) {
+        e.preventDefault();
+        showNotification('Please enter a valid 10-digit Indian phone number', 'error');
+        return false;
+    }
+});
+
+// Success notification
 {% if thank %}
-alert('Thanks for conracing us. We will get back to you!');
-document.location = "/shop/contact/";
+document.addEventListener('DOMContentLoaded', function() {
+    showNotification('Thanks for contacting us! We will get back to you soon!', 'success');
+    document.getElementById('contactForm').reset();
+});
 {% endif %}
+
+function showNotification(message, type) {
+    let existingNotification = document.querySelector('.success-message');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    let notification = document.createElement('div');
+    notification.className = 'success-message';
+    
+    if (type === 'success') {
+        notification.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+        notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+    } else {
+        notification.style.background = 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)';
+        notification.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+    }
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(function() {
+        notification.style.animation = 'slideOut 0.5s ease';
+        setTimeout(function() {
+            notification.remove();
+        }, 500);
+    }, 4000);
+}
+
+// Character counter
+document.getElementById('desc').addEventListener('input', function() {
+    let remaining = 500 - this.value.length;
+    let counter = document.getElementById('charCounter');
+    if (!counter) {
+        counter = document.createElement('small');
+        counter.id = 'charCounter';
+        counter.className = 'form-text text-muted text-right';
+        this.parentNode.appendChild(counter);
+    }
+    counter.textContent = `${remaining} characters left`;
+    counter.style.color = remaining < 50 ? '#dc3545' : '#6c757d';
+});
 </script>
 
-{% endblock js %}
+<style>
+@keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+</style>
+{% endblock %}

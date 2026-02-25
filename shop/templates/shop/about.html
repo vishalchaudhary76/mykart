@@ -1,54 +1,466 @@
 {% extends 'shop/basic.html' %}
 
 {% block title%} About Us{% endblock %}
+
 {% block body %}
+{% load static %}
 
+<style>
+    .about-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 100px 0;
+        margin-bottom: 50px;
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    }
+    
+    .stats-section {
+        margin-top: -50px;
+        margin-bottom: 60px;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #667eea;
+    }
+    
+    .mission-section {
+        background: #f8f9fa;
+        padding: 80px 0;
+        margin: 60px 0;
+    }
+    
+    .team-section {
+        padding: 80px 0;
+    }
+    
+    .team-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        transition: transform 0.3s;
+    }
+    
+    .team-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .team-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+    
+    .team-card:hover .team-img {
+        transform: scale(1.05);
+    }
+    
+    .team-info {
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .team-name {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .team-role {
+        color: #667eea;
+        margin-bottom: 10px;
+    }
+    
+    .team-social a {
+        color: #333;
+        margin: 0 8px;
+        font-size: 1.2rem;
+        transition: color 0.3s;
+    }
+    
+    .team-social a:hover {
+        color: #667eea;
+    }
+    
+    .timeline-section {
+        padding: 60px 0;
+        background: #f8f9fa;
+    }
+    
+    .timeline-item {
+        padding: 20px;
+        border-left: 3px solid #667eea;
+        margin-bottom: 30px;
+        background: white;
+        border-radius: 0 10px 10px 0;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+    
+    .timeline-item:hover {
+        transform: translateX(10px);
+    }
+    
+    .timeline-year {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #667eea;
+        margin-bottom: 5px;
+    }
+    
+    .value-badge {
+        background: white;
+        border-radius: 50px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s;
+        height: 100%;
+    }
+    
+    .value-badge:hover {
+        background: #667eea;
+        color: white;
+        transform: scale(1.05);
+    }
+    
+    .value-badge i {
+        font-size: 2.5rem;
+        color: #667eea;
+        margin-bottom: 15px;
+    }
+    
+    .value-badge:hover i {
+        color: white;
+    }
+    
+    .cta-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+        margin-top: 60px;
+    }
+    
+    .cta-button {
+        background: white;
+        color: #667eea;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+        transition: all 0.3s;
+    }
+    
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        color: #667eea;
+        text-decoration: none;
+    }
+    
+    .floating {
+        animation: floating 3s ease-in-out infinite;
+    }
+    
+    @keyframes floating {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+    
+    .story-image {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    .office-img {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 40px;
+        border-radius: 15px;
+        color: white;
+        text-align: center;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .office-img i {
+        font-size: 5rem;
+        margin-bottom: 20px;
+    }
+    
+    .team-img-placeholder {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 4rem;
+    }
+</style>
 
-
-
-<main role="main">
-
-  <!-- Main jumbotron for a primary marketing message or call to action -->
-  <div class="jumbotron">
+<!-- Header Section -->
+<div class="about-header text-center">
     <div class="container">
-      <h1 class="display-3">Mykart!</h1>
-      <p>Mykart Pvt Ltd. is an Indian electronic commerce company based in Noida, India. Founded by Vishal in 2026, the company initially focused on book sales, before expanding into other product categories such as consumer electronics, fashion, and lifestyle products.
-
-The service competes primarily with Mykart' s Indian subsidiary, and the domestic rival Snapdeal.[5][6] as of March 2017, Mykart held a 39.5% market share of India's e-commerce industry.[7] Mykart is significantly dominant in the sale of apparel (a position that was bolstered by its acquisitions of Myntra and Jabong.com), and was described as being "neck and neck" with Mykart in the sale of electronics and mobile phones.[8] Mykart also owns PhonePe, a mobile payments service based on the Unified Payments Interface (UPI).
-
-In August 2018, U.S.-based retail chain Walmart acquired a 77% controlling stake in Mykart for US$16 billion, valuing it at $22 billion.</p>
-      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
+        <h1 class="display-3 mb-4 floating">Welcome to Mykart!</h1>
+        <p class="lead">Your Premier Online Shopping Destination</p>
     </div>
-  </div>
+</div>
 
-  <div class="container">
-    <!-- Example row of columns -->
+<!-- Stats Section -->
+<div class="container stats-section">
     <div class="row">
-      <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
-      </div>
-      <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
-      </div>
-      <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
-      </div>
+        <div class="col-md-3 mb-4">
+            <div class="stat-card">
+                <div class="stat-number">10M+</div>
+                <p class="text-muted">Happy Customers</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stat-card">
+                <div class="stat-number">50K+</div>
+                <p class="text-muted">Products</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stat-card">
+                <div class="stat-number">100+</div>
+                <p class="text-muted">Brands</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <p class="text-muted">Support</p>
+            </div>
+        </div>
     </div>
+</div>
 
-    <hr>
+<!-- Story Section -->
+<div class="container mb-5">
+    <div class="row align-items-center">
+        <div class="col-lg-6 mb-4">
+            <h2 class="mb-4">Our Story</h2>
+            <p class="lead">Mykart Pvt Ltd. is an Indian electronic commerce company based in Noida, India.</p>
+            <p>Founded by Vishal in 2026, the company initially focused on book sales, before expanding into other product categories such as consumer electronics, fashion, and lifestyle products.</p>
+            <p>The service competes primarily with Amazon India and Snapdeal. As of March 2017, Mykart held a 39.5% market share of India's e-commerce industry.</p>
+            <p>In August 2018, U.S.-based retail chain Walmart acquired a 77% controlling stake in Mykart for US$16 billion, valuing it at $22 billion.</p>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="office-img">
+                <i class="fas fa-building"></i>
+                <h3 class="mb-3">Mykart Headquarters</h3>
+                <p class="mb-0">Noida, India</p>
+                <p>Est. 2026</p>
+                <i class="fas fa-map-marker-alt mt-3" style="font-size: 2rem;"></i>
+            </div>
+        </div>
+    </div>
+</div>
 
-  </div> <!-- /container -->
+<!-- Mission Section -->
+<div class="mission-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <h2 class="mb-4">Our Mission</h2>
+                <p class="lead">To make quality products accessible to every Indian consumer.</p>
+                <p>We strive to provide the best shopping experience with authentic products, competitive prices, and exceptional customer service.</p>
+                <div class="mt-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-check-circle text-success mr-3" style="font-size: 1.5rem;"></i>
+                        <span>100% Authentic Products</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-check-circle text-success mr-3" style="font-size: 1.5rem;"></i>
+                        <span>Free & Fast Delivery</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-check-circle text-success mr-3" style="font-size: 1.5rem;"></i>
+                        <span>Easy Returns</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div style="background: white; padding: 40px; border-radius: 15px; height: 100%;">
+                    <h2 class="mb-4">Our Vision</h2>
+                    <p class="lead">To become India's most trusted and preferred e-commerce platform.</p>
+                    <p>We envision a future where every Indian, regardless of their location, can access the products they need with just a few clicks.</p>
+                    <div class="text-center mt-4">
+                        <i class="fas fa-eye" style="font-size: 5rem; color: #667eea; opacity: 0.3;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-</main>
+<!-- Values Section -->
+<div class="container py-5">
+    <h2 class="text-center mb-5">Our Core Values</h2>
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="value-badge">
+                <i class="fas fa-heart"></i>
+                <h5>Customer First</h5>
+                <p class="mb-0">Everything we do is for our customers</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="value-badge">
+                <i class="fas fa-shield-alt"></i>
+                <h5>Trust & Integrity</h5>
+                <p class="mb-0">Building trust through transparency</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="value-badge">
+                <i class="fas fa-rocket"></i>
+                <h5>Innovation</h5>
+                <p class="mb-0">Constantly evolving to serve you better</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="value-badge">
+                <i class="fas fa-handshake"></i>
+                <h5>Partnership</h5>
+                <p class="mb-0">Growing together with our sellers</p>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Timeline Section -->
+<div class="timeline-section">
+    <div class="container">
+        <h2 class="text-center mb-5">Our Journey</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="timeline-item">
+                    <div class="timeline-year">2026</div>
+                    <h5>Founded by Vishal</h5>
+                    <p>Started as an online bookstore in Noida</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="timeline-item">
+                    <div class="timeline-year">2027</div>
+                    <h5>Expansion</h5>
+                    <p>Expanded to electronics and fashion categories</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="timeline-item">
+                    <div class="timeline-year">2028</div>
+                    <h5>Market Leadership</h5>
+                    <p>Achieved 39.5% market share in Indian e-commerce</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="timeline-item">
+                    <div class="timeline-year">2029</div>
+                    <h5>Walmart Acquisition</h5>
+                    <p>Walmart acquired 77% stake for US$16 billion</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Team Section -->
+<div class="team-section">
+    <div class="container">
+        <h2 class="text-center mb-5">Meet Our Leadership</h2>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="team-card">
+                    <div class="team-img-placeholder">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3 class="team-name">Vishal</h3>
+                        <p class="team-role">Founder & CEO</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="team-card">
+                    <div class="team-img-placeholder">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3 class="team-name">Priya Sharma</h3>
+                        <p class="team-role">Chief Operating Officer</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="team-card">
+                    <div class="team-img-placeholder">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3 class="team-name">Rajesh Kumar</h3>
+                        <p class="team-role">Chief Technology Officer</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- CTA Section -->
+<div class="cta-section">
+    <div class="container">
+        <h2 class="mb-4">Ready to Start Shopping?</h2>
+        <p class="lead mb-4">Join millions of happy customers who trust Mykart for their shopping needs</p>
+        <a href="/shop" class="cta-button">Shop Now <i class="fas fa-arrow-right ml-2"></i></a>
+    </div>
+</div>
 
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 {% endblock %}
