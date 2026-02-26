@@ -7,3 +7,6 @@ admin.site.register(Product)
 admin.site.register(Contact)
 admin.site.register(Orders)
 admin.site.register(OrderUpdate)
+admin.site.site_header = "MyKart Admin"
+admin.site.site_title = "MyKart Admin Portal"
+admin.site.index_title = "Welcome to MyKart Admin Portal"
